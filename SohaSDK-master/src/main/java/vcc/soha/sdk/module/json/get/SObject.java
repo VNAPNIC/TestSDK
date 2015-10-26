@@ -4,7 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.Primitives;
+
+import vcc.soha.sdk.module.commons.SPrimAndWrap;
 
 /**
  * Created by Admin on 10/23/2015.
@@ -25,6 +26,6 @@ public class SObject<T> extends AsyncTask<Class<T>,Void,T> {
     protected T doInBackground(Class<T>... params) {
         Object object = mGson.fromJson(mJson, params[0]);
         Log.d("Object Check", object.toString());
-        return Primitives.wrap(params[0]).cast(object);
+        return SPrimAndWrap.wrap(params[0]).cast(object);
     }
 }

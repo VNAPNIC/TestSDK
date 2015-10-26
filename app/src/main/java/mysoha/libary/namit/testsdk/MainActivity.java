@@ -15,9 +15,8 @@ import vcc.soha.sdk.SubBaseSson;
 import vcc.soha.sdk.module.commons.SConnect;
 import vcc.soha.sdk.module.json.Sson;
 
-public class MainActivity extends AppCompatActivity implements Sson.OnCallList{
+public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
 
-    public List<Mobiadzone> listCity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,29 +33,26 @@ public class MainActivity extends AppCompatActivity implements Sson.OnCallList{
             }
         });
 
-
+        Object object = new Object();
         Sson s = new Sson();
-        Object object = new Mobiadzone();
-        s.addNewPram(SubBaseSson.Company.USER,"abc","abc","abc","abc","abc","abc","abc","abc","abc","abc","abc","abc");
+
         s.setRequestMethod(SConnect.POST);
         s.addConnect("aaaaaaaaa", object);
-//        s.setOnCallList(this, Mobiadzone.class);
-//
-//        MobiadzoneList list = new MobiadzoneList();
-//        list.setMobiadzones(listCity);
-//        for (Mobiadzone mb : list.getMobiadzones()) {
-//            System.out.println(mb.getName());
-//            System.out.println(mb.getDesc());
-//            System.out.println(mb.getLink());
-//            System.out.println(mb.getLogo());
-//            System.out.println(mb.getPrice());
-//            System.out.println("//////////////");
-//        }
+        s.setOnCallList(this, Mobiadzone.class);
     }
 
     @Override
     public <T> void OnCallList(List<T> list) {
-        listCity = (List<Mobiadzone>) list;
+        MobiadzoneList mlist = new MobiadzoneList();
+        mlist.setMobiadzones((List<Mobiadzone>) list);
+        for (Mobiadzone mb : mlist.getMobiadzones()) {
+            System.out.println(mb.getName());
+            System.out.println(mb.getDesc());
+            System.out.println(mb.getLink());
+            System.out.println(mb.getLogo());
+            System.out.println(mb.getPrice());
+            System.out.println("//////////////");
+        }
     }
 
     @Override
