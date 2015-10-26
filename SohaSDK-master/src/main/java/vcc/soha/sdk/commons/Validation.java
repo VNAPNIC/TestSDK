@@ -1,10 +1,10 @@
-package vcc.soha.sdk.module.commons;
+package vcc.soha.sdk.commons;
 
 /**
  * Created by hainam1421 on 10/25/2015.
  */
-public class Preconditions {
-    private Preconditions() {
+public class Validation {
+    private Validation() {
         throw new UnsupportedOperationException();
     }
 

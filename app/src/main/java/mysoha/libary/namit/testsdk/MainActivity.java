@@ -11,9 +11,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-import vcc.soha.sdk.SubBaseSson;
-import vcc.soha.sdk.module.commons.SConnect;
-import vcc.soha.sdk.module.json.Sson;
+import vcc.soha.sdk.commons.SConnect;
+import vcc.soha.sdk.json.Sson;
 
 public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
 

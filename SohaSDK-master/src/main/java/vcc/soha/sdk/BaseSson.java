@@ -1,21 +1,17 @@
-package vcc.soha.sdk.module;
+package vcc.soha.sdk;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.net.HttpURLConnection;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-import vcc.soha.sdk.SubBaseSson;
-import vcc.soha.sdk.module.commons.SConnect;
-import vcc.soha.sdk.module.connect.ConnectAsyncTask;
-import vcc.soha.sdk.module.connect.GetJsonAsynTask;
-import vcc.soha.sdk.module.keys.IKey;
-import vcc.soha.sdk.module.commons.ISetup;
+import vcc.soha.sdk.commons.SConnect;
+import vcc.soha.sdk.connect.ConnectAsyncTask;
+import vcc.soha.sdk.connect.GetJsonAsynTask;
+import vcc.soha.sdk.keys.IKey;
+import vcc.soha.sdk.commons.ISetup;
 
 /**
  * Created by Admin on 10/21/2015.

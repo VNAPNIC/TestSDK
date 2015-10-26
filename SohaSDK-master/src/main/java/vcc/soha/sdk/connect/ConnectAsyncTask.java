@@ -1,4 +1,4 @@
-package vcc.soha.sdk.module.connect;
+package vcc.soha.sdk.connect;
 
 import android.os.AsyncTask;
 import android.util.Log;

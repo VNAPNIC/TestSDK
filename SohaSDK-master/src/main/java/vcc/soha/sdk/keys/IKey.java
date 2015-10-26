@@ -1,4 +1,4 @@
-package vcc.soha.sdk.module.keys;
+package vcc.soha.sdk.keys;
 
 public interface IKey {
 

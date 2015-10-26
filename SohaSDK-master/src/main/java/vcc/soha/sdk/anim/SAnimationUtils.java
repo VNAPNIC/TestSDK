@@ -1,4 +1,4 @@
-package vcc.soha.sdk.module.anim;
+package vcc.soha.sdk.anim;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

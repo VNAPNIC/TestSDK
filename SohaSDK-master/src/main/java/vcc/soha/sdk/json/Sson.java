@@ -1,20 +1,16 @@
-package vcc.soha.sdk.module.json;
+package vcc.soha.sdk.json;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Preconditions;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import vcc.soha.sdk.module.BaseSson;
-import vcc.soha.sdk.module.json.get.SArrayList;
-import vcc.soha.sdk.module.json.get.SObject;
+import vcc.soha.sdk.BaseSson;
+import vcc.soha.sdk.json.get.SArrayList;
+import vcc.soha.sdk.json.get.SObject;
 
 
 /**
@@ -27,6 +23,7 @@ public final class Sson extends BaseSson{
      * @return Object
      */
     private <T> T getObject(Class<T> classOfT) {
+        mGson = new Gson();
         if(checkPrams !=-1) {
             SObject<T> sObject = new SObject(mGson, getTAG(), getJsonString());
             try {
@@ -45,6 +42,7 @@ public final class Sson extends BaseSson{
      * @return List
      */
     private <T> List<T> getList(Class<T> classOfT) {
+        mGson = new Gson();
         if(checkPrams !=-1) {
             try {
                 SArrayList<T> list = new SArrayList(getSConnection(), getTAG(), mGson);
@@ -91,5 +89,5 @@ public final class Sson extends BaseSson{
     public interface OnCallList{
         <T> void OnCallList(List<T> list);
     }
-    private Gson mGson = new Gson();
+    private Gson mGson;
 }

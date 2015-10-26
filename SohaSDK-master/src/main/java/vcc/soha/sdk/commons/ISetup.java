@@ -1,4 +1,4 @@
-package vcc.soha.sdk.module.commons;
+package vcc.soha.sdk.commons;
 
 import vcc.soha.sdk.SubBaseSson;
 

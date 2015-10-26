@@ -1,4 +1,4 @@
-package vcc.soha.sdk.module.json.get;
+package vcc.soha.sdk.json.get;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.internal.Primitives;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import vcc.soha.sdk.module.commons.SPrimAndWrap;
+import vcc.soha.sdk.commons.SPrimAndWrap;
 
 /**
  * Created by Admin on 10/23/2015.
@@ -44,7 +43,7 @@ public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
             JsonArray mArrayJson = rootElement.getAsJsonArray();
             for (JsonElement mElement : mArrayJson) {
                 Object object = mG.fromJson(mElement, params[0]);
-                list.add(SPrimAndWrap.wrap(params[0]).cast(object));
+                list.add(SPrimAndWrap.swrap(params[0]).cast(object));
             }
 
         } catch (IOException e) {

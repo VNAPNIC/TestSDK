@@ -1,6 +1,6 @@
 package vcc.soha.sdk;
 
-import vcc.soha.sdk.module.keys.IKey;
+import vcc.soha.sdk.keys.IKey;
 
 /**
  * Created by hainam1421 on 10/21/2015.
