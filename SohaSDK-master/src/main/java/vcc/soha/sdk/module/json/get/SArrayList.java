@@ -16,8 +16,6 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import vcc.soha.sdk.module.commons.SPrimAndWrap;
-
 /**
  * Created by Admin on 10/23/2015.
  */
@@ -44,13 +42,13 @@ public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
             JsonArray mArrayJson = rootElement.getAsJsonArray();
             for (JsonElement mElement : mArrayJson) {
                 Object object = mG.fromJson(mElement, params[0]);
-                list.add(SPrimAndWrap.wrap(params[0]).cast(object));
+                list.add(Primitives.wrap(params[0]).cast(object));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG,"Size List -> "+list.size()+"");
+        Log.d(TAG,list.size()+"");
         return list;
     }
 }

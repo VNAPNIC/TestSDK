@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.net.HttpURLConnection;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -30,9 +28,7 @@ public abstract class BaseSson extends SubBaseSson implements ISetup, IKey {
     private String mTAG = BaseSson.class.getName();
     private HttpURLConnection SConnection = null;
     private Object object;
-    public int checkPrams = 0;
-
-
+    private int checkPrams = 0;
 
 
     public Object getObject() {
@@ -149,24 +145,21 @@ public abstract class BaseSson extends SubBaseSson implements ISetup, IKey {
      */
     @Override
     public void addConnect(@Nullable String TAG, @Nullable Object object) {
-        if (TAG != null) {
-            setTAG(TAG);
-        }
-        if (object != null) {
-            setObject(object);
-        }
-        if(checkPrams !=-1) {
-            try {
-                ConnectAsyncTask cat = new ConnectAsyncTask();
-                cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), getRequestMethod(), getTAG()});
-                setSConnection(cat.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+
+        try {
+            if (TAG != null) {
+                setTAG(TAG);
             }
-        } else if (checkPrams == -1) {
-            Log.d(getTAG(), "param length greater than key");
+            if (object != null) {
+                setObject(object);
+            }
+            ConnectAsyncTask cat = new ConnectAsyncTask();
+            cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), getRequestMethod(), getTAG()});
+            setSConnection(cat.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
     }
@@ -176,16 +169,14 @@ public abstract class BaseSson extends SubBaseSson implements ISetup, IKey {
      */
     @Override
     public String getJsonString() {
-        if(checkPrams !=-1) {
-            try {
-                GetJsonAsynTask asynTask = new GetJsonAsynTask();
-                asynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getSConnection());
-                return asynTask.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+        try {
+            GetJsonAsynTask asynTask = new GetJsonAsynTask();
+            asynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getSConnection());
+            return asynTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return null;
     }
