@@ -12,9 +12,9 @@ public interface ISetup {
 
     int getCountKey();
 
-    void addNewPram(SubBaseSson.Company company, String... strings);
+    void setPram(SubBaseSson.Company company, String... strings);
 
-    void addConnect(String TAG, Object object);
+    void requestConnect(String TAG, Object object);
 
     String getJsonString();
 

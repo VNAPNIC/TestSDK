@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import vcc.soha.sdk.commons.SConnect;
+import vcc.soha.sdk.entities.SObjects;
 import vcc.soha.sdk.json.Sson;
 
-public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
+public class MainActivity extends AppCompatActivity implements Sson.OnRequestCallBack{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +39,16 @@ public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
         Sson s = new Sson();
 
 //        s.setRequestMethod(SConnect.POST);
-        s.addConnect("aaaaaaaaa", object);
-        s.setOnCallList(this, Mobiadzone.class);
+        s.requestConnect("aaaaaaaaa", object);
+        s.setOnRequestCallBack(this,Mobiadzone.class);
+        s.getJsonString();
     }
 
+
     @Override
-    public <T> void OnCallList(List<T> list) {
+    public <T> void OnRequestCallBack(SObjects<T> list) {
         MobiadzoneList mlist = new MobiadzoneList();
-        mlist.setMobiadzones((List<Mobiadzone>) list);
+        mlist.setMobiadzones((List<Mobiadzone>) list.gettList());
         for (Mobiadzone mb : mlist.getMobiadzones()) {
             System.out.println(mb.getName());
             System.out.println(mb.getDesc());
@@ -53,6 +58,20 @@ public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
             System.out.println("//////////////");
         }
     }
+//    @Override
+//    public <T> List<T> OnRequestCallBack(List<T> list) {
+//        MobiadzoneList mlist = new MobiadzoneList();
+//        mlist.setMobiadzones((List<Mobiadzone>) list);
+//        for (Mobiadzone mb : mlist.getMobiadzones()) {
+//            System.out.println(mb.getName());
+//            System.out.println(mb.getDesc());
+//            System.out.println(mb.getLink());
+//            System.out.println(mb.getLogo());
+//            System.out.println(mb.getPrice());
+//            System.out.println("//////////////");
+//        }
+//        return null;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,6 +94,5 @@ public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

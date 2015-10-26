@@ -20,12 +20,12 @@ import vcc.soha.sdk.commons.SPrimAndWrap;
 /**
  * Created by Admin on 10/23/2015.
  */
-public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
+public class SArrayList<T> extends AsyncTask<Class<T>, Void, List<T>> {
     HttpURLConnection httpURLConnection = null;
     Gson mG = null;
     String TAG = null;
 
-    public SArrayList(HttpURLConnection httpURLConnection,String TAG ,Gson mG) {
+    public SArrayList(HttpURLConnection httpURLConnection, String TAG, Gson mG) {
         this.httpURLConnection = httpURLConnection;
         this.mG = mG;
         this.TAG = TAG;
@@ -33,6 +33,7 @@ public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
 
     @Override
     protected List<T> doInBackground(Class<T>... params) {
+
         List<T> list = new ArrayList<>();
         JsonReader reader = null;
         try {
@@ -49,7 +50,7 @@ public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG,"Size List -> "+list.size()+"");
+        Log.d(TAG, "Size List -> " + list.size() + "");
         return list;
     }
 }
