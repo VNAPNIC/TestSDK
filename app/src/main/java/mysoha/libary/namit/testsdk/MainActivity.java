@@ -13,12 +13,15 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import vcc.soha.sdk.SubBaseSson;
 import vcc.soha.sdk.commons.SConnect;
 import vcc.soha.sdk.entities.SObjects;
+import vcc.soha.sdk.entities.SReferences;
 import vcc.soha.sdk.json.Sson;
 
 public class MainActivity extends AppCompatActivity implements Sson.OnRequestCallBack{
-
+    Sson s = new Sson();
+    private static final String TAG = "test tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,20 +39,29 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
         });
 
         Object object = new Object();
-        Sson s = new Sson();
+        s = new Sson().getInstance();
+//        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
+        s.setReferences(TAG,object);
+        s.setRequestMethod(SConnect.POST);
+        s.requestAction();
+        s.setOnRequestCallBack(this, Mobiadzone.class);
+        s.getReferences(TAG);
+        s.error();
 
-//        s.setRequestMethod(SConnect.POST);
-        s.requestConnect("aaaaaaaaa", object);
-        s.setOnRequestCallBack(this,Mobiadzone.class);
-        s.getJsonString();
+        s = new Sson().getInstance();
+        s.setReferences(TAG,object);
+        s.setRequestMethod(SConnect.POST);
+        s.requestAction();
+        s.setOnRequestCallBack(this, Mobiadzone.class);
+        s.getReferences(TAG);
+        s.error();
     }
-
 
     @Override
     public <T> void OnRequestCallBack(SObjects<T> list) {
         MobiadzoneList mlist = new MobiadzoneList();
-        mlist.setMobiadzones((List<Mobiadzone>) list.gettList());
-        for (Mobiadzone mb : mlist.getMobiadzones()) {
+        mlist.setElements((List<Mobiadzone>) list.gettList());
+        for (Mobiadzone mb : mlist.getElements()) {
             System.out.println(mb.getName());
             System.out.println(mb.getDesc());
             System.out.println(mb.getLink());
@@ -58,20 +70,6 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
             System.out.println("//////////////");
         }
     }
-//    @Override
-//    public <T> List<T> OnRequestCallBack(List<T> list) {
-//        MobiadzoneList mlist = new MobiadzoneList();
-//        mlist.setMobiadzones((List<Mobiadzone>) list);
-//        for (Mobiadzone mb : mlist.getMobiadzones()) {
-//            System.out.println(mb.getName());
-//            System.out.println(mb.getDesc());
-//            System.out.println(mb.getLink());
-//            System.out.println(mb.getLogo());
-//            System.out.println(mb.getPrice());
-//            System.out.println("//////////////");
-//        }
-//        return null;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,5 +92,6 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

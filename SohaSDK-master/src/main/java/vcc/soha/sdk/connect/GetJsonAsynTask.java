@@ -9,10 +9,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
+import vcc.soha.sdk.entities.SObjects;
+
 /**
  * Created by Admin on 10/22/2015.
  */
 public class GetJsonAsynTask extends AsyncTask<HttpURLConnection,Void,String> {
+
+
 
 
     @Override
@@ -31,7 +35,6 @@ public class GetJsonAsynTask extends AsyncTask<HttpURLConnection,Void,String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("StringJson",buffer.toString());
         return buffer.toString();
     }
 }

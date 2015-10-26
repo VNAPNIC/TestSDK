@@ -33,4 +33,6 @@ public class SObjects<T> {
     public void setString(String string) {
         this.string = string;
     }
+
+
 }

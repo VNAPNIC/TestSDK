@@ -7,13 +7,13 @@ import java.util.List;
  */
 public class MobiadzoneList {
 
-    private List<Mobiadzone> mobiadzones;
+    private List<Mobiadzone> elements;
 
-    public List<Mobiadzone> getMobiadzones() {
-        return mobiadzones;
+    public List<Mobiadzone> getElements() {
+        return elements;
     }
 
-    public void setMobiadzones(List<Mobiadzone> mobiadzones) {
-        this.mobiadzones = mobiadzones;
+    public void setElements(List<Mobiadzone> elements) {
+        this.elements = elements;
     }
 }

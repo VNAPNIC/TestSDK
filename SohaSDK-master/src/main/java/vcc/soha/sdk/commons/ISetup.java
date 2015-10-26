@@ -14,8 +14,10 @@ public interface ISetup {
 
     void setPram(SubBaseSson.Company company, String... strings);
 
-    void requestConnect(String TAG, Object object);
+    void requestAction();
 
     String getJsonString();
+
+    String error();
 
 }
