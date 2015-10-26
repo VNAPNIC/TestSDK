@@ -43,7 +43,7 @@ public class SArrayList<T> extends AsyncTask<Class<T>,Void, List<T>> {
             JsonArray mArrayJson = rootElement.getAsJsonArray();
             for (JsonElement mElement : mArrayJson) {
                 Object object = mG.fromJson(mElement, params[0]);
-                list.add(SPrimAndWrap.swrap(params[0]).cast(object));
+                list.add(SPrimAndWrap.sWrap(params[0]).cast(object));
             }
 
         } catch (IOException e) {

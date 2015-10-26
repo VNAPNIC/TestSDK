@@ -26,6 +26,6 @@ public class SObject<T> extends AsyncTask<Class<T>,Void,T> {
     protected T doInBackground(Class<T>... params) {
         Object object = mGson.fromJson(mJson, params[0]);
         Log.d("Object Check", object.toString());
-        return SPrimAndWrap.swrap(params[0]).cast(object);
+        return SPrimAndWrap.sWrap(params[0]).cast(object);
     }
 }

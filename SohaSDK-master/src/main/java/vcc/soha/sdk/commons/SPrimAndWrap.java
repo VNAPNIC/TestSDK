@@ -47,7 +47,7 @@ public final class SPrimAndWrap {
         backward.put(value, key);
     }
 
-    public static <T> Class<T> swrap(Class<T> type) {
+    public static <T> Class<T> sWrap(Class<T> type) {
         // cast is safe: long.class and Long.class are both of type Class<Long>
         @SuppressWarnings("unchecked")
         Class<T> wrapped = (Class<T>) PRIMITIVE_TO_WRAPPER_TYPE.get(
