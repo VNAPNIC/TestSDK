@@ -12,6 +12,7 @@ import vcc.soha.sdk.connect.ConnectAsyncTask;
 import vcc.soha.sdk.connect.GetJsonAsynTask;
 import vcc.soha.sdk.keys.IKey;
 import vcc.soha.sdk.commons.ISetup;
+import vcc.soha.sdk.network.CheckNetWork;
 
 /**
  * Created by Admin on 10/21/2015.
@@ -19,16 +20,19 @@ import vcc.soha.sdk.commons.ISetup;
 public abstract class BaseSson extends SubBaseSson implements ISetup, IKey {
 
     private String sUrl = null;
-    private int count = 0;
     private String[] params = null;
     private String[] keys = null;
-    private String requestMethod = SConnect.GET;
-    private String mTAG = BaseSson.class.getName();
+    private String requestMethod;
+    private String mTAG;
     private HttpURLConnection SConnection = null;
     private Object object;
-    public int checkPrams = 0;
+    public int checkPrams;
 
-
+    {
+        mTAG = BaseSson.class.getName();
+        requestMethod = SConnect.GET;
+        checkPrams = 0;
+    }
 
 
     public Object getObject() {
@@ -73,7 +77,7 @@ public abstract class BaseSson extends SubBaseSson implements ISetup, IKey {
      */
     @Override
     public int getCountKey() {
-        return count = getKey().length;
+        return getKey().length;
     }
 
     /**

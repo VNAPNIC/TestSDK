@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements Sson.OnCallList {
         Object object = new Object();
         Sson s = new Sson();
 
-        s.setRequestMethod(SConnect.POST);
+//        s.setRequestMethod(SConnect.POST);
         s.addConnect("aaaaaaaaa", object);
         s.setOnCallList(this, Mobiadzone.class);
     }
