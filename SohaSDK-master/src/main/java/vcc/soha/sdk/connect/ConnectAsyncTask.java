@@ -24,10 +24,13 @@ public class ConnectAsyncTask extends AsyncTask<String[], Void, HttpURLConnectio
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("charset", "UTF-8");
             connection.setRequestMethod(params[1]);
+            connection.setDefaultUseCaches(true);
 
             Log.d(params[2], "RequestMethod -> " + connection.getRequestMethod());
             Log.d(params[2],"ResponseCode -> "+connection.getResponseCode());
             Log.d(params[2],"ResponseMessage -> " + connection.getResponseMessage());
+            Log.d(params[2],"Encoding -> "+ connection.getContentEncoding());
+            Log.d(params[2],"Timeout -> "+ connection.getConnectTimeout());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 
@@ -15,19 +16,23 @@ import java.util.List;
 
 import vcc.soha.sdk.SubBaseSson;
 import vcc.soha.sdk.commons.SConnect;
+import vcc.soha.sdk.conver.ImagesConver;
 import vcc.soha.sdk.entities.SObjects;
 import vcc.soha.sdk.entities.SReferences;
+import vcc.soha.sdk.images.ImagesLoader;
 import vcc.soha.sdk.json.Sson;
 
 public class MainActivity extends AppCompatActivity implements Sson.OnRequestCallBack{
     Sson s = new Sson();
     private static final String TAG = "test tag";
+    private ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        img = (ImageView) findViewById(R.id.img);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
         Object object = new Object();
         s = new Sson().getInstance();
 //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
-        s.setReferences(TAG,object);
+        s.setReferences(TAG, object);
         s.setRequestMethod(SConnect.POST);
         s.requestAction();
         s.setOnRequestCallBack(this, Mobiadzone.class);
@@ -49,12 +54,16 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
         s.error();
 
         s = new Sson().getInstance();
-        s.setReferences(TAG,object);
+        s.setReferences(TAG, object);
         s.setRequestMethod(SConnect.POST);
         s.requestAction();
         s.setOnRequestCallBack(this, Mobiadzone.class);
         s.getReferences(TAG);
         s.error();
+
+        String url = "http://1.bp.blogspot.com/-IVEdLnEJ6OY/Uw1ptWW-hoI/AAAAAAAAH64/vBat8mGYWLU/s1600/2-thu-thach-giup-ban-manh-me-h-2712-7304-1391390203.gif";
+        ImagesLoader il = new ImagesLoader(this);
+        il.SimpleTarget(500,500).ConverGIF(img, ImagesConver.ConverResourcesToDrawable(R.mipmap.ic_launcher, this), url);
     }
 
     @Override

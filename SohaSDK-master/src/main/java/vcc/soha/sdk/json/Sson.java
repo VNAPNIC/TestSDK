@@ -32,7 +32,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
 
 
     static {
-
         instance = null;
     }
 
@@ -41,7 +40,8 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         TAG = Sson.class.getName();
         requestMethod = SConnect.GET;
         checkPrams = 0;
-        mError = "not error";
+        mError = "";
+        mJsonString = null;
     }
 
     public static void initInstance() {
@@ -130,16 +130,27 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         return sUrl;
     }
 
-    Object[] actionObjects = null;
-
     /**
      * @param params 1 TAG , 2 Object
      */
-    public Object[] setReferences(Object... params) {
-        actionObjects = new Object[]{params[0], params[1]};
-        Log.d("TAG", params[0].toString());
-        Log.d("Object", params[1].toString());
-        return actionObjects;
+    public void setReferences(Object... params) {
+        try {
+            if (!listReferences.isEmpty()) {
+                Log.d(TAG, "TAG duplicate");
+                removeTAG(params[0].toString());
+            }
+            SReferences sReferences = new SReferences();
+            sReferences.setTAG(params[0].toString());
+            sReferences.setObject(params[1]);
+            if(mJsonString !=null){
+                sReferences.setStrJson(mJsonString);
+            }
+            listReferences.add(sReferences);
+            Log.d(TAG, "Add TAG Success.!");
+        } catch (Exception e) {
+            mError = e.getMessage();
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -152,8 +163,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             for (int i = 0; i < listReferences.size(); i++) {
                 if (listReferences.get(i).getTAG().equals(TAG)) {
                     sReferences = listReferences.get(i);
-                    Log.d(TAG, "TAG = " + listReferences.get(i).getTAG()
-                            + "\njSonString = " + listReferences.get(i).getStrJson());
+                    Log.d(TAG, "TAG = " + listReferences.get(i).getTAG());
                     return sReferences;
                 }
             }
@@ -187,6 +197,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                 ConnectAsyncTask cat = new ConnectAsyncTask();
                 cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), getRequestMethod(), TAG});
                 SConnection = cat.get();
+                mJsonString = getJsonString();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -246,24 +257,10 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         protected SObjects<T> doInBackground(Class<T>... params) {
             SObjects<T> sObjects = new SObjects();
             mGson = new Gson();
-            String json = getJsonString();
+            Log.d(TAG,mJsonString);
             JsonParser parser = new JsonParser();
-            JsonElement rootElement = parser.parse(json);
-
-            if (!listReferences.isEmpty() && actionObjects != null) {
-                Log.d(TAG, "TAG duplicate");
-                removeTAG(actionObjects[0].toString());
-            }
-            if (actionObjects != null) {
-                Log.d(TAG,"Add TAG Success.!");
-                SReferences sReferences = new SReferences();
-                sReferences.setTAG(actionObjects[0].toString());
-                sReferences.setObject(actionObjects[1]);
-                sReferences.setStrJson(json);
-                listReferences.add(sReferences);
-            }
-
-
+            JsonElement rootElement = parser.parse(mJsonString);
+            sObjects.setJsonString(mJsonString);
             if (rootElement.isJsonArray()) {
                 List<T> list = new ArrayList<>();
                 JsonArray mArrayJson = rootElement.getAsJsonArray();
@@ -273,8 +270,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                     list.add(SPrimAndWrap.sWrap(params[0]).cast(object));
                 }
                 sObjects.settList(list);
-            } else if (rootElement.isJsonObject())
-            {
+            } else if (rootElement.isJsonObject()) {
                 Object object = mGson.fromJson(rootElement, params[0]);
                 sObjects.setOject(SPrimAndWrap.sWrap(params[0]).cast(object));
             } else if (rootElement.isJsonNull())
@@ -288,10 +284,13 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         }
     }
 
-
     @Override
     public String error() {
-        Log.d(TAG, mError);
+        if(mError.equals("")) {
+
+        }else{
+            Log.e(TAG, mError);
+        }
         return mError;
     }
 
@@ -325,5 +324,5 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     private int checkPrams;
     private List<SReferences> listReferences;
     private String mError;
-
+    private String mJsonString;
 }

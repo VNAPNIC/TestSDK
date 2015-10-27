@@ -9,6 +9,15 @@ public class SObjects<T> {
     List<T> tList = null;
     T oject = null;
     String string = null;
+    String jsonString = null;
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
+    }
 
     public List<T> gettList() {
         return tList;
