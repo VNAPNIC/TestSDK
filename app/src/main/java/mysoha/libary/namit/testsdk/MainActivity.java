@@ -11,9 +11,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import java.util.List;
-
-import vcc.soha.sdk.SubBaseSson;
-import vcc.soha.sdk.controller.RequestThreadPool;
+import vcc.soha.sdk.controller.RequestRunnable;
 import vcc.soha.sdk.entities.SObjects;
 import vcc.soha.sdk.json.Sson;
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
         });
 
         Object object = new Object();
-        RequestThreadPool threadPool = new RequestThreadPool(s);
+        RequestRunnable threadPool = new RequestRunnable(s);
 //        threadPool.setPram(SubBaseSson.Action.CHAT,"pram","pram","pram");
         threadPool.setReferences(TAG, object);
         threadPool.setOnRequestCallBack(this, Mobiadzone.class);
