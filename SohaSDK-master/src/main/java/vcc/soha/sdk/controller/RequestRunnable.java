@@ -8,7 +8,7 @@ import vcc.soha.sdk.json.Sson;
 /**
  * Created by Admin on 10/27/2015.
  */
-public class RequestThreadPool implements Runnable {
+public class RequestRunnable implements Runnable {
 
     Sson sson = null;
     private Object[] objects = null;
@@ -17,17 +17,19 @@ public class RequestThreadPool implements Runnable {
     private Object TAG = null;
     private SubBaseSson.Action action;
     private String[] strings;
-    private int a, b, c, d;
+    private String strTAG;
+    private int a, b, c, d, e;
 
     {
         a = 0;
         b = 0;
         c = 0;
         d = 0;
+        e = 0;
     }
 
 
-    public RequestThreadPool(Sson sson) {
+    public RequestRunnable(Sson sson) {
         this.sson = sson;
     }
 
@@ -43,6 +45,17 @@ public class RequestThreadPool implements Runnable {
         b = 1;
     }
 
+    public void getReferences(Object TAG) {
+//        sson.getReferences(TAG);
+        this.TAG = TAG;
+        d = 1;
+    }
+
+    public void removeTAG(String TAG) {
+//        sson.removeTAG(strTAG);
+        this.strTAG = TAG;
+    }
+
     public <T> void setOnRequestCallBack(@Nullable Sson.OnRequestCallBack onRequestCallBack, Class<T> classOfT) {
 //        sson.setOnRequestCallBack(onRequestCallBack, classOfT);
         this.onRequestCallBack = onRequestCallBack;
@@ -50,11 +63,6 @@ public class RequestThreadPool implements Runnable {
         c = 1;
     }
 
-    public void getReferences(Object TAG) {
-//        sson.getReferences(TAG);
-        this.TAG = TAG;
-        d = 1;
-    }
 
     @Override
     public void run() {
@@ -70,6 +78,9 @@ public class RequestThreadPool implements Runnable {
         }
         if (d == 1) {
             sson.getReferences(TAG);
+        }
+        if (e == 1) {
+            sson.removeTAG(strTAG);
         }
     }
 }
