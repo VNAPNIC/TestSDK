@@ -50,14 +50,16 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         mJsonString = null;
     }
 
-    public Sson(Socket socket,Context context) {
-        this.context = context;
-        checkConnect = 0;
+    /**
+     *
+     * @param i == 1 la Https còn không là Socket
+     */
+    public Sson(int i) {
+        checkConnect = i;
     }
 
-    public Sson(HttpURLConnection connection) {
-        this.connection = connection;
-        checkConnect = 1;
+    public interface getController{
+
     }
 //
 //    public Sson() {
@@ -189,19 +191,19 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     /**
      * @param TAG Get TAG
      */
-    public SReferences getReferences(String TAG) {
-        Log.d(TAG, listReferences.size() + "");
+    public SReferences getReferences(Object TAG) {
+        Log.d(TAG.toString(), listReferences.size() + "");
         SReferences sReferences = new SReferences();
         if (!listReferences.isEmpty()) {
             for (int i = 0; i < listReferences.size(); i++) {
                 if (listReferences.get(i).getTAG().equals(TAG)) {
                     sReferences = listReferences.get(i);
-                    Log.d(TAG, "TAG = " + listReferences.get(i).getTAG());
+                    Log.d(TAG.toString(), "TAG = " + listReferences.get(i).getTAG());
                     return sReferences;
                 }
             }
         } else {
-            Log.e(TAG, "TAG is null");
+            Log.e(TAG.toString(), "TAG is null");
         }
         return null;
     }
@@ -363,9 +365,8 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     private List<SReferences> listReferences;
     private String mError;
     private String mJsonString;
-    private Context context;
-    private HttpURLConnection connection;
-    private Socket socket;
     private int checkConnect;
     private int POST;
+    public static final int HTTPS = 1;
+    public static final int SOCKET = 0;
 }

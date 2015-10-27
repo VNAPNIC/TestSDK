@@ -10,20 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import org.json.JSONException;
-
 import java.util.List;
-
-import vcc.soha.sdk.SubBaseSson;
-import vcc.soha.sdk.commons.SConnect;
-import vcc.soha.sdk.conver.ImagesConver;
+import vcc.soha.sdk.controller.RequestThreadPool;
 import vcc.soha.sdk.entities.SObjects;
-import vcc.soha.sdk.entities.SReferences;
-import vcc.soha.sdk.images.ImagesLoader;
 import vcc.soha.sdk.json.Sson;
 
 public class MainActivity extends AppCompatActivity implements Sson.OnRequestCallBack{
-    Sson s = new Sson();
+    Sson s = new Sson(Sson.HTTPS);
     private static final String TAG = "test tag";
     private ImageView img;
     @Override
@@ -44,22 +37,29 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
         });
 
         Object object = new Object();
+        RequestThreadPool threadPool = new RequestThreadPool(s);
+        
+        threadPool.setReferences(TAG, object);
+        threadPool.setOnRequestCallBack(this, Mobiadzone.class);
+        //get
+        threadPool.getReferences(TAG);
+        threadPool.run();
 
         //------------------------------------------------------------
 //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
-        s.requestAction();
-        s.setReferences(TAG, object);
-        s.setOnRequestCallBack(this, Mobiadzone.class);
-        //get
-        s.getReferences(TAG);
+//        s.requestAction();
+//        s.setReferences(TAG, object);
+//        s.setOnRequestCallBack(this, Mobiadzone.class);
+//        //get
+//        s.getReferences(TAG);
 
         //--------------------------------------------------------------
         //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
-        s.requestAction();
-        s.setReferences(TAG, object);
-        s.setOnRequestCallBack(this, Mobiadzone.class);
-        //get
-        s.getReferences(TAG);
+//        s.requestAction();
+//        s.setReferences(TAG, object);
+//        s.setOnRequestCallBack(this, Mobiadzone.class);
+//        //get
+//        s.getReferences(TAG);
         //--------------------------------------------------------------
 
 //        String url = "http://1.bp.blogspot.com/-IVEdLnEJ6OY/Uw1ptWW-hoI/AAAAAAAAH64/vBat8mGYWLU/s1600/2-thu-thach-giup-ban-manh-me-h-2712-7304-1391390203.gif";
