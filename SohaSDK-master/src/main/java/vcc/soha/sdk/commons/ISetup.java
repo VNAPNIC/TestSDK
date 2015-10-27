@@ -12,7 +12,7 @@ public interface ISetup {
 
     int getCountKey();
 
-    void setPram(SubBaseSson.Company company, String... strings);
+    void setPram(SubBaseSson.Action action, String... strings);
 
     void requestAction();
 

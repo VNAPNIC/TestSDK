@@ -59,6 +59,10 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         return instance;
     }
 
+    public void setOnCreateRequest(OnRequestCallBack onRequestCallBack){
+        onRequestCallBack.OnCreateRequest();
+    }
+
     /**
      * getCount
      *
@@ -72,12 +76,12 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     /**
      * Add dữ liệu:
      *
-     * @param company Chuyền vào Action
+     * @param action Chuyền vào Action
      * @param strings Chuyền vào param
      */
     @Override
-    public void setPram(@Nullable Company company, @Nullable String... strings) {
-        setCompany(company);
+    public void setPram(@Nullable Action action, @Nullable String... strings) {
+        setCompany(action);
         if (strings.length <= getCountKey()) {
             checkPrams = 1;
             params = new String[getCountKey()];
@@ -242,6 +246,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             SObjects<T> sObjects = tdemo.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, classOfT).get();
 
             onRequestCallBack.OnRequestCallBack(sObjects);
+            onRequestCallBack.onError(error());
         } catch (InterruptedException e) {
             Log.e(TAG, e.getMessage());
             mError = e.getMessage();
@@ -298,7 +303,9 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      * interface CallList
      */
     public interface OnRequestCallBack {
+        void OnCreateRequest();
         <T> void OnRequestCallBack(SObjects<T> list);
+        void onError(String error);
     }
 
     private String getRequestMethod() {

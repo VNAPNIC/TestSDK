@@ -10,7 +10,7 @@ public class SubBaseSson implements IKey {
     /**
      * Tạo @Enum chứa các @Action
      */
-    public enum Company {
+    public enum Action {
         TEST,
         USER,
         GIFT_WHEEL,
@@ -45,9 +45,9 @@ public class SubBaseSson implements IKey {
     }
 
     // khởi tạo
-    Company company;
+    Action company;
 
-    public void setCompany(Company company) {
+    public void setCompany(Action company) {
         this.company = company;
     }
 

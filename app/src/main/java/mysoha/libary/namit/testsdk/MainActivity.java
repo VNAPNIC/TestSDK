@@ -43,27 +43,25 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
             }
         });
 
-        Object object = new Object();
         s = new Sson().getInstance();
-//        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
-        s.setReferences(TAG, object);
-        s.setRequestMethod(SConnect.POST);
-        s.requestAction();
-        s.setOnRequestCallBack(this, Mobiadzone.class);
-        s.getReferences(TAG);
-        s.error();
-
-        s = new Sson().getInstance();
-        s.setReferences(TAG, object);
-        s.setRequestMethod(SConnect.POST);
-        s.requestAction();
-        s.setOnRequestCallBack(this, Mobiadzone.class);
-        s.getReferences(TAG);
-        s.error();
+        s.setOnCreateRequest(this);
 
         String url = "http://1.bp.blogspot.com/-IVEdLnEJ6OY/Uw1ptWW-hoI/AAAAAAAAH64/vBat8mGYWLU/s1600/2-thu-thach-giup-ban-manh-me-h-2712-7304-1391390203.gif";
         ImagesLoader il = new ImagesLoader(this);
         il.SimpleTarget(500,500).ConverGIF(img, ImagesConver.ConverResourcesToDrawable(R.mipmap.ic_launcher, this), url);
+    }
+
+    @Override
+    public void OnCreateRequest() {
+
+        Object object = new Object();
+        //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
+        s.setReferences(TAG, object);
+        s.setRequestMethod(SConnect.POST);
+        s.requestAction();
+        s.setOnRequestCallBack(this, Mobiadzone.class);
+        s.getReferences(TAG);
+        s.error();
     }
 
     @Override
@@ -78,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
             System.out.println(mb.getPrice());
             System.out.println("//////////////");
         }
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 
     @Override
