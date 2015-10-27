@@ -18,14 +18,27 @@ public class RequestRunnable implements Runnable {
     private SubBaseSson.Action action;
     private String[] strings;
     private String strTAG;
+    private int typeConnect, Port;
     private int a, b, c, d, e;
 
     {
+        typeConnect = Sson.HTTPS;
+        Port = 0;
         a = 0;
         b = 0;
         c = 0;
         d = 0;
         e = 0;
+
+    }
+
+    /**
+     * @param typeConnect xác định dạng connect dùng cho socket
+     * @param Port        Cổng port socket
+     */
+    public void requestAction(int typeConnect, int Port) {
+        this.typeConnect = typeConnect;
+        this.Port = Port;
     }
 
 
@@ -39,23 +52,38 @@ public class RequestRunnable implements Runnable {
         a = 1;
     }
 
+    /**
+     * @param params params[0] TAG , params[1] Object
+     *               set TAG màn hình
+     */
     public void setReferences(Object... params) {
 //        sson.setReferences(params[0],params[1]);
         this.objects = params;
         b = 1;
     }
 
+    /**
+     * @param TAG Get TAG màn hình
+     */
     public void getReferences(Object TAG) {
 //        sson.getReferences(TAG);
         this.TAG = TAG;
         d = 1;
     }
 
-    public void removeTAG(String TAG) {
+    /**
+     * @param TAG remove TAG màn hình
+     */
+    public void removeReferences(String TAG) {
 //        sson.removeTAG(strTAG);
         this.strTAG = TAG;
+        e = 1;
     }
 
+    /**
+     * @param onRequestCallBack
+     * @param classOfT
+     */
     public <T> void setOnRequestCallBack(@Nullable Sson.OnRequestCallBack onRequestCallBack, Class<T> classOfT) {
 //        sson.setOnRequestCallBack(onRequestCallBack, classOfT);
         this.onRequestCallBack = onRequestCallBack;
@@ -69,7 +97,7 @@ public class RequestRunnable implements Runnable {
         if (a == 1) {
             sson.setPram(action, strings);
         }
-        sson.requestAction();
+        sson.requestAction(typeConnect, Port);
         if (b == 1) {
             sson.setReferences(objects[0], objects[1]);
         }
@@ -80,7 +108,7 @@ public class RequestRunnable implements Runnable {
             sson.getReferences(TAG);
         }
         if (e == 1) {
-            sson.removeTAG(strTAG);
+            sson.removeReferences(strTAG);
         }
     }
 }

@@ -41,7 +41,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     }
 
     {
-        checkConnect = 1;
         listReferences = new ArrayList<>();
         TAG = Sson.class.getName();
         requestMethod = SConnect.GET;
@@ -50,15 +49,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         mJsonString = null;
     }
 
-    /**
-     *
-     * @param i == 1 la Https còn không là Socket
-     */
-    public Sson(int i) {
-        checkConnect = i;
-    }
-
-    public interface getController{
+    public interface getController {
 
     }
 //
@@ -117,20 +108,11 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         }
     }
 
-    private int getPOST() {
-        return POST;
-    }
-
-    public void setPOST(int POST) {
-        this.POST = POST;
-    }
-
     /**
-     * @return String url
+     * @return address socket
      */
     @Override
-    public String getURL() {
-        if(checkConnect == 1) {
+    public String getURL(int port) {
             try {
                 if (checkPrams == 0) {
                     sUrl = LINK;
@@ -152,15 +134,48 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             } catch (NullPointerException npe) {
                 npe.printStackTrace();
             }
-        }else{
-            sUrl = LINK;
-            sUrl += sUrl+":"+getPOST();
+
+
+        if (checkPrams != -1) {
+            sUrl = sUrl.replaceAll(" ", "%20");
+            Log.d(TAG, sUrl);
         }
 
-            if (checkPrams != -1) {
-                sUrl = sUrl.replaceAll(" ", "%20");
-                Log.d(TAG, sUrl);
+        return sUrl +":"+port;
+    }
+
+
+    /**
+     *
+     * @return URL
+     */
+    @Override
+    public String getURL() {
+        try {
+            if (checkPrams == 0) {
+                sUrl = LINK;
+            } else if (checkPrams == 1) {
+                sUrl = LINK + "?";
+                for (int i = 0; i < getCountKey(); i++) {
+                    if (i == 0) {
+                        sUrl += keys[i] + "=";
+                    } else {
+                        sUrl = sUrl + "&" + keys[i] + "=";
+                    }
+                    if (!params[i].equals("")) {
+                        sUrl += params[i].toString();
+                    }
+                }
+            } else if (checkPrams == -1) {
+                Log.d(TAG, "param length greater than key");
             }
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+        if (checkPrams != -1) {
+            sUrl = sUrl.replaceAll(" ", "%20");
+            Log.d(TAG, sUrl);
+        }
 
         return sUrl;
     }
@@ -172,7 +187,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         try {
             if (!listReferences.isEmpty()) {
                 Log.d(TAG, "TAG duplicate");
-                removeTAG(params[0].toString());
+                removeReferences(params[0].toString());
             }
             SReferences sReferences = new SReferences();
             sReferences.setTAG(params[0].toString());
@@ -211,7 +226,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     /**
      * Remove TAG
      */
-    public void removeTAG(String TAG) {
+    public void removeReferences(String TAG) {
         if (!listReferences.isEmpty()) {
             for (int i = 0; i < listReferences.size(); i++) {
                 if (listReferences.get(i).getTAG().equals(TAG)) {
@@ -224,10 +239,12 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
 
     /**
      * Khởi tạo HttpURLConnection
+     *
+     * @param connect https or Socket
      */
     @Override
-    public void requestAction() {
-        if(checkConnect == 1) {
+    public void requestAction(int connect,@Nullable int Port) {
+        if (connect == HTTPS) {
             if (checkPrams != -1) {
                 try {
                     ConnectAsyncTask cat = new ConnectAsyncTask();
@@ -242,12 +259,12 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                 Log.d(TAG, "param length greater than key");
                 mError = "param length greater than key";
             }
-        }else{
+        } else if (connect == SOCKET) {
             try {
                 IO.Options options = new IO.Options();
                 options.forceNew = true;
                 options.reconnection = false;
-                final Socket socket = IO.socket(getURL(), options);
+                final Socket socket = IO.socket(getURL(Port), options);
                 socket.on(Socket.EVENT_CONNECT_TIMEOUT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
@@ -365,8 +382,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     private List<SReferences> listReferences;
     private String mError;
     private String mJsonString;
-    private int checkConnect;
-    private int POST;
     public static final int HTTPS = 1;
     public static final int SOCKET = 0;
 }

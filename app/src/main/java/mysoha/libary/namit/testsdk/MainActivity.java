@@ -11,12 +11,15 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import vcc.soha.sdk.controller.RequestRunnable;
 import vcc.soha.sdk.entities.SObjects;
 import vcc.soha.sdk.json.Sson;
 
 public class MainActivity extends AppCompatActivity implements Sson.OnRequestCallBack{
-    Sson s = new Sson(Sson.HTTPS);
+    Sson s = new Sson();
     private static final String TAG = "test tag";
     private ImageView img;
     @Override
@@ -36,15 +39,21 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
             }
         });
 
+        ExecutorService executor = Executors.newFixedThreadPool(5);
         Object object = new Object();
-        RequestRunnable threadPool = new RequestRunnable(s);
+        for(int i=0;i<=10;i++) {
+            System.out.println("Check Thread "+i);
+            RequestRunnable threadPool = new RequestRunnable(s);
 //        threadPool.setPram(SubBaseSson.Action.CHAT,"pram","pram","pram");
-        threadPool.setReferences(TAG, object);
-        threadPool.setOnRequestCallBack(this, Mobiadzone.class);
-        //get
-        threadPool.getReferences(TAG);
-        threadPool.run();
-
+//            threadPool.requestAction(Sson.SOCKET,5555);
+            threadPool.setReferences(TAG, object);
+            threadPool.setOnRequestCallBack(this, Mobiadzone.class);
+            //get
+            threadPool.getReferences(TAG);
+            //set Thread
+            executor.execute(threadPool);
+        }
+        executor.shutdown();
         //------------------------------------------------------------
 //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
 //        s.requestAction();
