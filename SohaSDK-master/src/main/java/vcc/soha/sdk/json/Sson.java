@@ -9,7 +9,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,7 +18,6 @@ import vcc.soha.sdk.commons.ISetup;
 import vcc.soha.sdk.commons.SConnect;
 import vcc.soha.sdk.commons.SPrimAndWrap;
 import vcc.soha.sdk.connect.ConnectAsyncTask;
-import vcc.soha.sdk.connect.GetJsonAsynTask;
 import vcc.soha.sdk.entities.SObjects;
 import vcc.soha.sdk.entities.SReferences;
 import vcc.soha.sdk.keys.IKey;
@@ -44,6 +42,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         mJsonString = null;
     }
 
+
     public static void initInstance() {
         if (instance == null) {
             instance = new Sson();
@@ -59,10 +58,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         return instance;
     }
 
-    public void setOnCreateRequest(OnRequestCallBack onRequestCallBack){
-        onRequestCallBack.OnCreateRequest();
-    }
-
     /**
      * getCount
      *
@@ -76,7 +71,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     /**
      * Add dữ liệu:
      *
-     * @param action Chuyền vào Action
+     * @param action  Chuyền vào Action
      * @param strings Chuyền vào param
      */
     @Override
@@ -146,7 +141,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             SReferences sReferences = new SReferences();
             sReferences.setTAG(params[0].toString());
             sReferences.setObject(params[1]);
-            if(mJsonString !=null){
+            if (mJsonString != null) {
                 sReferences.setStrJson(mJsonString);
             }
             listReferences.add(sReferences);
@@ -199,9 +194,8 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         if (checkPrams != -1) {
             try {
                 ConnectAsyncTask cat = new ConnectAsyncTask();
-                cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), getRequestMethod(), TAG});
-                SConnection = cat.get();
-                mJsonString = getJsonString();
+                cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), requestMethod, TAG});
+                mJsonString = cat.get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -211,28 +205,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             Log.d(TAG, "param length greater than key");
             mError = "param length greater than key";
         }
-
-    }
-
-    /**
-     * @resunt String Json
-     */
-    @Override
-    public String getJsonString() {
-        if (checkPrams != -1) {
-            try {
-                GetJsonAsynTask asynTask = new GetJsonAsynTask();
-                asynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SConnection);
-                return asynTask.get();
-            } catch (InterruptedException e) {
-                Log.e(TAG, e.getMessage());
-                mError = e.getMessage();
-            } catch (ExecutionException e) {
-                Log.e(TAG, e.getMessage());
-                mError = e.getMessage();
-            }
-        }
-        return null;
     }
 
 
@@ -244,7 +216,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         getRequest<T> tdemo = new getRequest();
         try {
             SObjects<T> sObjects = tdemo.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, classOfT).get();
-
             onRequestCallBack.OnRequestCallBack(sObjects);
             onRequestCallBack.onError(error());
         } catch (InterruptedException e) {
@@ -262,7 +233,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         protected SObjects<T> doInBackground(Class<T>... params) {
             SObjects<T> sObjects = new SObjects();
             mGson = new Gson();
-            Log.d(TAG,mJsonString);
+            Log.d(TAG, mJsonString);
             JsonParser parser = new JsonParser();
             JsonElement rootElement = parser.parse(mJsonString);
             sObjects.setJsonString(mJsonString);
@@ -291,9 +262,9 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
 
     @Override
     public String error() {
-        if(mError.equals("")) {
+        if (mError.equals("")) {
 
-        }else{
+        } else {
             Log.e(TAG, mError);
         }
         return mError;
@@ -303,13 +274,9 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      * interface CallList
      */
     public interface OnRequestCallBack {
-        void OnCreateRequest();
-        <T> void OnRequestCallBack(SObjects<T> list);
-        void onError(String error);
-    }
+        void OnRequestCallBack(SObjects list);
 
-    private String getRequestMethod() {
-        return requestMethod;
+        void onError(String error);
     }
 
     /**
@@ -327,7 +294,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
     private String[] keys = null;
     private String requestMethod;
     private String TAG = Sson.class.getName();
-    private HttpURLConnection SConnection = null;
     private int checkPrams;
     private List<SReferences> listReferences;
     private String mError;

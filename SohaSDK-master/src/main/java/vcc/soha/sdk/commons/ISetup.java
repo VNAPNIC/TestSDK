@@ -16,8 +16,6 @@ public interface ISetup {
 
     void requestAction();
 
-    String getJsonString();
-
     String error();
 
 }

@@ -14,23 +14,34 @@ import java.net.URL;
 /**
  * Created by Admin on 10/22/2015.
  */
-public class ConnectAsyncTask extends AsyncTask<String[], Void, HttpURLConnection> {
+public class ConnectAsyncTask extends AsyncTask<String[], Void, String> {
 
+    StringBuffer buffer = null;
+    InputStream is = null;
 
-    public HttpURLConnection getConnect(String[] params) {
+    public String getConnect(final String[] params) {
         HttpURLConnection connection = null;
+
         try {
             URL url = new URL(params[0]);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("charset", "UTF-8");
             connection.setRequestMethod(params[1]);
             connection.setDefaultUseCaches(true);
+            is = connection.getInputStream();
+            InputStreamReader reader = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(reader);
+            buffer = new StringBuffer();
+            String strJson;
+            while ((strJson = br.readLine()) != null) {
+                buffer.append(strJson + "\n");
+            }
 
             Log.d(params[2], "RequestMethod -> " + connection.getRequestMethod());
-            Log.d(params[2],"ResponseCode -> "+connection.getResponseCode());
-            Log.d(params[2],"ResponseMessage -> " + connection.getResponseMessage());
-            Log.d(params[2],"Encoding -> "+ connection.getContentEncoding());
-            Log.d(params[2],"Timeout -> "+ connection.getConnectTimeout());
+            Log.d(params[2], "ResponseCode -> " + connection.getResponseCode());
+            Log.d(params[2], "ResponseMessage -> " + connection.getResponseMessage());
+            Log.d(params[2], "Encoding -> " + connection.getContentEncoding());
+            Log.d(params[2], "Timeout -> " + connection.getConnectTimeout());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -38,11 +49,11 @@ public class ConnectAsyncTask extends AsyncTask<String[], Void, HttpURLConnectio
             e.printStackTrace();
         }
 
-        return connection;
+        return buffer.toString();
     }
 
     @Override
-    protected HttpURLConnection doInBackground(String[]... params) {
+    protected String doInBackground(String[]... params) {
         return getConnect(params[0]);
     }
 }

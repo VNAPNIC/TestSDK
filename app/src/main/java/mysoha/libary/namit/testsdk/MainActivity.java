@@ -43,29 +43,33 @@ public class MainActivity extends AppCompatActivity implements Sson.OnRequestCal
             }
         });
 
-        s = new Sson().getInstance();
-        s.setOnCreateRequest(this);
-
-        String url = "http://1.bp.blogspot.com/-IVEdLnEJ6OY/Uw1ptWW-hoI/AAAAAAAAH64/vBat8mGYWLU/s1600/2-thu-thach-giup-ban-manh-me-h-2712-7304-1391390203.gif";
-        ImagesLoader il = new ImagesLoader(this);
-        il.SimpleTarget(500,500).ConverGIF(img, ImagesConver.ConverResourcesToDrawable(R.mipmap.ic_launcher, this), url);
-    }
-
-    @Override
-    public void OnCreateRequest() {
-
         Object object = new Object();
-        //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
-        s.setReferences(TAG, object);
-        s.setRequestMethod(SConnect.POST);
+
+        //------------------------------------------------------------
+//        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
         s.requestAction();
+        s.setReferences(TAG, object);
         s.setOnRequestCallBack(this, Mobiadzone.class);
+        //get
         s.getReferences(TAG);
-        s.error();
+
+        //--------------------------------------------------------------
+        //        s.setPram(SubBaseSson.Company.CHAT,"pram","pram","pram");
+        s.requestAction();
+        s.setReferences(TAG, object);
+        s.setOnRequestCallBack(this, Mobiadzone.class);
+        //get
+        s.getReferences(TAG);
+        //--------------------------------------------------------------
+
+//        String url = "http://1.bp.blogspot.com/-IVEdLnEJ6OY/Uw1ptWW-hoI/AAAAAAAAH64/vBat8mGYWLU/s1600/2-thu-thach-giup-ban-manh-me-h-2712-7304-1391390203.gif";
+//        ImagesLoader il = new ImagesLoader(this);
+//        il.SimpleTarget(500,500).ConverGIF(img, ImagesConver.ConverResourcesToDrawable(R.mipmap.ic_launcher, this), url);
+
     }
 
     @Override
-    public <T> void OnRequestCallBack(SObjects<T> list) {
+    public void OnRequestCallBack(SObjects list) {
         MobiadzoneList mlist = new MobiadzoneList();
         mlist.setElements((List<Mobiadzone>) list.gettList());
         for (Mobiadzone mb : mlist.getElements()) {
