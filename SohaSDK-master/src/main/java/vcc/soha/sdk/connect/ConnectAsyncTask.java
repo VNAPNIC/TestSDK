@@ -27,7 +27,7 @@ public class ConnectAsyncTask extends AsyncTask<String[], Void, String> {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("charset", "UTF-8");
             connection.setRequestMethod(params[1]);
-            connection.setDefaultUseCaches(true);
+            connection.setUseCaches(false);
             is = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(reader);
