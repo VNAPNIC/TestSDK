@@ -112,12 +112,12 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      * @return address socket
      */
     @Override
-    public String getURL(int port) {
+    public String getUrlSocket() {
             try {
                 if (checkPrams == 0) {
-                    sUrl = LINK;
+                    sUrl = LINK_SOCKET;
                 } else if (checkPrams == 1) {
-                    sUrl = LINK + "?";
+                    sUrl = LINK_SOCKET;
                     for (int i = 0; i < getCountKey(); i++) {
                         if (i == 0) {
                             sUrl += keys[i] + "=";
@@ -141,7 +141,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
             Log.d(TAG, sUrl);
         }
 
-        return sUrl +":"+port;
+        return sUrl;
     }
 
 
@@ -264,7 +264,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                 IO.Options options = new IO.Options();
                 options.forceNew = true;
                 options.reconnection = false;
-                final Socket socket = IO.socket(getURL(Port), options);
+                final Socket socket = IO.socket(getUrlSocket(), options);
                 socket.on(Socket.EVENT_CONNECT_TIMEOUT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {

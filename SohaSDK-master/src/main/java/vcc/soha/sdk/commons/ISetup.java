@@ -9,9 +9,10 @@ import vcc.soha.sdk.SubBaseSson;
  */
 public interface ISetup {
     String LINK = "http://mobiadzone.com/campaign/hainam1421";
+    String LINK_SOCKET = "http://username:password@host:8080/directory/file";
 
     String getURL();
-    String getURL(int port);
+    String getUrlSocket();
 
     int getCountKey();
 
