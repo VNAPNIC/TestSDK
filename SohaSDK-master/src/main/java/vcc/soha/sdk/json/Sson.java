@@ -282,7 +282,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                         System.out.println("disconnect");
                     }
                 });
-                socket.open();
+                socket.connect();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
