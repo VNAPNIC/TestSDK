@@ -10,8 +10,8 @@ import android.util.Log;
 /**
  * Created by Admin on 10/27/2015.
  */
-public class ImagesConver {
-    public static Bitmap ImagesNameConver(String imgName,Context context){
+public class Images {
+    public static Bitmap NameToBitmap(String imgName,Context context){
 
         int res = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
         Log.d("res", res + "");
@@ -20,7 +20,7 @@ public class ImagesConver {
                 res);
         return bitmap;
     }
-    public static Drawable ConverResourcesToDrawable(int imgResources,Context context){
+    public static Drawable ResourcesToDrawable(int imgResources,Context context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return context.getResources().getDrawable(imgResources,context.getTheme());
         }else{

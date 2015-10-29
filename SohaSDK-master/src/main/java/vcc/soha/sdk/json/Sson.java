@@ -49,27 +49,23 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
         mJsonString = null;
     }
 
-    public interface getController {
-
+    public Sson() {
     }
-//
-//    public Sson() {
-//    }
-//
-//    public static void initInstance() {
-//        if (instance == null) {
-//            instance = new Sson();
-//        }
-//    }
-//
-//    public static Sson getInstance() {
-//        if (instance == null) {
-//            synchronized (Sson.class) {
-//                initInstance();
-//            }
-//        }
-//        return instance;
-//    }
+
+    public static void initInstance() {
+        if (instance == null) {
+            instance = new Sson();
+        }
+    }
+
+    public static Sson getInstance() {
+        if (instance == null) {
+            synchronized (Sson.class) {
+                initInstance();
+            }
+        }
+        return instance;
+    }
 
     /**
      * getCount
@@ -113,27 +109,27 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      */
     @Override
     public String getUrlSocket() {
-            try {
-                if (checkPrams == 0) {
-                    sUrl = LINK_SOCKET;
-                } else if (checkPrams == 1) {
-                    sUrl = LINK_SOCKET;
-                    for (int i = 0; i < getCountKey(); i++) {
-                        if (i == 0) {
-                            sUrl += keys[i] + "=";
-                        } else {
-                            sUrl = sUrl + "&" + keys[i] + "=";
-                        }
-                        if (!params[i].equals("")) {
-                            sUrl += params[i].toString();
-                        }
+        try {
+            if (checkPrams == 0) {
+                sUrl = LINK_SOCKET;
+            } else if (checkPrams == 1) {
+                sUrl = LINK_SOCKET;
+                for (int i = 0; i < getCountKey(); i++) {
+                    if (i == 0) {
+                        sUrl += keys[i] + "=";
+                    } else {
+                        sUrl = sUrl + "&" + keys[i] + "=";
                     }
-                } else if (checkPrams == -1) {
-                    Log.d(TAG, "param length greater than key");
+                    if (!params[i].equals("")) {
+                        sUrl += params[i].toString();
+                    }
                 }
-            } catch (NullPointerException npe) {
-                npe.printStackTrace();
+            } else if (checkPrams == -1) {
+                Log.d(TAG, "param length greater than key");
             }
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
 
 
         if (checkPrams != -1) {
@@ -146,7 +142,6 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
 
 
     /**
-     *
      * @return URL
      */
     @Override
@@ -243,9 +238,10 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      * @param connect https or Socket
      */
     @Override
-    public void requestAction(int connect,@Nullable int Port) {
-        if (connect == HTTPS) {
-            if (checkPrams != -1) {
+    public void requestAction(int connect, @Nullable int Port) {
+        if (checkPrams != -1) {
+            if (connect == HTTPS) {
+
                 try {
                     ConnectAsyncTask cat = new ConnectAsyncTask();
                     cat.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[]{getURL(), requestMethod, TAG});
@@ -255,39 +251,40 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-            } else if (checkPrams == -1) {
-                Log.d(TAG, "param length greater than key");
-                mError = "param length greater than key";
-            }
-        } else if (connect == SOCKET) {
-            try {
-                IO.Options options = new IO.Options();
-                options.forceNew = true;
-                options.reconnection = false;
-                final Socket socket = IO.socket(getUrlSocket(), options);
-                socket.on(Socket.EVENT_CONNECT_TIMEOUT, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        System.out.println("connect timeout");
-                    }
-                }).on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        System.out.println("connect error");
-                        mError = "connect error";
-                    }
-                }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        System.out.println("disconnect");
-                    }
-                });
-                socket.connect();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
+
+            } else if (connect == SOCKET) {
+                try {
+                    IO.Options options = new IO.Options();
+                    options.forceNew = true;
+                    options.reconnection = false;
+                    final Socket socket = IO.socket(getUrlSocket(), options);
+                    socket.on(Socket.EVENT_CONNECT_TIMEOUT, new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            System.out.println("connect timeout");
+                            mError = "connect timeout";
+                        }
+                    }).on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            System.out.println("connect error");
+                            mError = "connect error";
+                        }
+                    }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            System.out.println("disconnect");
+                        }
+                    });
+                    socket.connect();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
 
-
+        } else if (checkPrams == -1) {
+            Log.d(TAG, "param length greater than key");
+            mError = "param length greater than key";
         }
     }
 

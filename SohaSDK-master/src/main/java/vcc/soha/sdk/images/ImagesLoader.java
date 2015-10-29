@@ -34,7 +34,7 @@ public class ImagesLoader {
 
     /**
      * @param view     ImagesView
-     * @param drawable Drawable
+     * @param drawable Drawable error & placeholder
      * @param URL      String Url
      */
     public ImagesLoader ConverGIF(@NonNull final ImageView view, @Nullable Drawable drawable, @NonNull String URL) {
