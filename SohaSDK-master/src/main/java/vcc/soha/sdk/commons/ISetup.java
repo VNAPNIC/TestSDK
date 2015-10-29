@@ -18,7 +18,7 @@ public interface ISetup {
 
     void setPram(SubBaseSson.Action action, String... strings);
 
-    void requestAction(int connect,@Nullable int Port);
+    void requestAction(int connect);
 
     String error();
 

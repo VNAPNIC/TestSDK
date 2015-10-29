@@ -238,7 +238,7 @@ public final class Sson extends SubBaseSson implements ISetup, IKey {
      * @param connect https or Socket
      */
     @Override
-    public void requestAction(int connect, @Nullable int Port) {
+    public void requestAction(int connect) {
         if (checkPrams != -1) {
             if (connect == HTTPS) {
 

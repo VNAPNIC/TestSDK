@@ -18,12 +18,11 @@ public class RequestRunnable implements Runnable {
     private SubBaseSson.Action action;
     private String[] strings;
     private String strTAG;
-    private int typeConnect, Port;
+    private int typeConnect;
     private int a, b, c, d, e;
 
     {
         typeConnect = Sson.HTTPS;
-        Port = 0;
         a = 0;
         b = 0;
         c = 0;
@@ -34,11 +33,9 @@ public class RequestRunnable implements Runnable {
 
     /**
      * @param typeConnect xác định dạng connect dùng cho socket
-     * @param Port        Cổng port socket
      */
-    public void requestAction(int typeConnect, int Port) {
+    public void requestAction(int typeConnect) {
         this.typeConnect = typeConnect;
-        this.Port = Port;
     }
 
 
@@ -97,7 +94,7 @@ public class RequestRunnable implements Runnable {
         if (a == 1) {
             sson.setPram(action, strings);
         }
-        sson.requestAction(typeConnect, Port);
+        sson.requestAction(typeConnect);
         if (b == 1) {
             sson.setReferences(objects[0], objects[1]);
         }
